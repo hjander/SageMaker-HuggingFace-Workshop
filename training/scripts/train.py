@@ -17,7 +17,7 @@ if __name__ == "__main__":
     parser.add_argument("--train_batch_size", type=int, default=32)
     parser.add_argument("--eval_batch_size", type=int, default=64)
     parser.add_argument("--warmup_steps", type=int, default=500)
-    parser.add_argument("--model_name", type=str)
+    parser.add_argument("--model_id", type=str)
     parser.add_argument("--learning_rate", type=str, default=5e-5)
 
     # Data, model, and output directories
@@ -54,8 +54,8 @@ if __name__ == "__main__":
         return {"accuracy": acc, "f1": f1, "precision": precision, "recall": recall}
 
     # download model from model hub
-    model = AutoModelForSequenceClassification.from_pretrained(args.model_name)
-    tokenizer = AutoTokenizer.from_pretrained(args.model_name)
+    model = AutoModelForSequenceClassification.from_pretrained(args.model_id)
+    tokenizer = AutoTokenizer.from_pretrained(args.model_id)
 
     # define training args
     training_args = TrainingArguments(
