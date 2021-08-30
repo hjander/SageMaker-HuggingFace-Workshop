@@ -1,4 +1,10 @@
-from transformers import AutoModelForSequenceClassification, Trainer, TrainingArguments, AutoTokenizer
+from transformers import (
+    AutoModelForSequenceClassification,
+    Trainer,
+    TrainingArguments,
+    AutoTokenizer,
+    default_data_collator,
+)
 from sklearn.metrics import accuracy_score, precision_recall_fscore_support
 from datasets import load_dataset
 import random
@@ -49,7 +55,7 @@ if __name__ == "__main__":
 
     # preprocess function, tokenizes text
     def preprocess_function(examples):
-        return tokenizer(examples["review"], padding=True, max_length=True, truncation=True)
+        return tokenizer(examples["review"], padding="max_length", truncation=True)
 
     # preprocess dataset
     train_dataset = raw_train_dataset.map(
@@ -72,7 +78,7 @@ if __name__ == "__main__":
     def compute_metrics(pred):
         labels = pred.label_ids
         preds = pred.predictions.argmax(-1)
-        precision, recall, f1, _ = precision_recall_fscore_support(labels, preds, average="binary")
+        precision, recall, f1, _ = precision_recall_fscore_support(labels, preds, average="micro")
         acc = accuracy_score(labels, preds)
         return {"accuracy": acc, "f1": f1, "precision": precision, "recall": recall}
 
@@ -102,6 +108,7 @@ if __name__ == "__main__":
         train_dataset=train_dataset,
         eval_dataset=test_dataset,
         tokenizer=tokenizer,
+        data_collator=default_data_collator,
     )
 
     # train model
