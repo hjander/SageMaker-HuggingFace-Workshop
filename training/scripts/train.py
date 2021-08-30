@@ -45,7 +45,7 @@ if __name__ == "__main__":
     raw_test_dataset = load_dataset("json", data_files=os.path.join(args.test_dir, args.test_file))["train"]
 
     # load tokenizer
-    tokenizer = AutoTokenizer.from_pretrained(args.model_dir)
+    tokenizer = AutoTokenizer.from_pretrained(args.model_id)
 
     # preprocess function, tokenizes text
     def preprocess_function(examples):
