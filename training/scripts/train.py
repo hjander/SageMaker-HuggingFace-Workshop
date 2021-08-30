@@ -45,7 +45,7 @@ if __name__ == "__main__":
     raw_test_dataset = load_dataset("json", data_files=os.path.join(args.test_dir, args.test_file))["train"]
 
     # load tokenizer
-    tokenizer = AutoTokenizer.from_pretrained(args.model_dir)
+    tokenizer = AutoTokenizer.from_pretrained(args.model_id)
 
     # preprocess function, tokenizes text
     def preprocess_function(examples):
@@ -87,6 +87,7 @@ if __name__ == "__main__":
         per_device_eval_batch_size=args.eval_batch_size,
         warmup_steps=args.warmup_steps,
         evaluation_strategy="epoch",
+        save_strategy="epoch",
         logging_dir=f"{args.output_data_dir}/logs",
         learning_rate=float(args.learning_rate),
         load_best_model_at_end=True,
