@@ -46,7 +46,12 @@ remove_columns = [
     "review_date",
 ]
 dataset = dataset.remove_columns(remove_columns)
+
+# rename columns to match schema
+dataset = dataset.rename_column("review_body", "review")
+dataset = dataset.rename_column("star_rating", "label")
 print(f"The dataset features are now {list(dataset.features.keys())}")
+
 
 # shuffle dataset and select x samples
 sampled_dataset = dataset.shuffle().select(range(train_dataset_length))
