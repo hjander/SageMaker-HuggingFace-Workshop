@@ -57,6 +57,15 @@ print(f"The dataset features are now {list(dataset.features.keys())}")
 sampled_dataset = dataset.shuffle().select(range(train_dataset_length))
 print(f"sampled dataset contains: {len(sampled_dataset)} rows")
 
+# change label indext from 1..5 to 0..4 to work with AutoModelForSequenceClassification
+# Label needs to start with 0
+def index_label(example):
+    example["label"] = example["label"] - 1
+    return example
+
+
+sampled_dataset = sampled_dataset.map(index_label)
+
 # split sampled dataset into test and train split
 processed_dataset_dict = sampled_dataset.train_test_split(test_size=test_split_size)
 print(f"train dataset contains: {len(processed_dataset_dict['train'])} rows")
