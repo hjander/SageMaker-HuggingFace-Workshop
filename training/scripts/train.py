@@ -123,5 +123,23 @@ if __name__ == "__main__":
         for key, value in sorted(eval_result.items()):
             writer.write(f"{key} = {value}\n")
 
+    # update the config for prediction
+    label2id = {
+        "1 star": 0,
+        "2 star": 1,
+        "3 star": 2,
+        "4 star": 3,
+        "5 star": 4,
+    }
+    id2label = {
+        0: "1 star",
+        1: "2 star",
+        2: "3 star",
+        3: "4 star",
+        4: "5 star",
+    }
+    trainer.model.config.label2id = label2id
+    trainer.model.config.id2label = id2label
+
     # Saves the model to s3
     trainer.save_model(args.model_dir)
