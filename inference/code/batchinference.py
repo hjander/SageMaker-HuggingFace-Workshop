@@ -5,6 +5,9 @@ import csv
 import urllib.request
 import json
 import os
+os.system('pip install retrying')
+
+from retrying import retry
 
 # define output data variable
 data = {}
@@ -13,6 +16,7 @@ data['predictions'] = []
 # download label mapping
 labels=[]
 mapping_link = f"https://raw.githubusercontent.com/cardiffnlp/tweeteval/main/datasets/emotion/mapping.txt"
+
 
 # Preprocess text (username and link placeholders)
 def preprocess(text):
@@ -37,10 +41,15 @@ def model_fn(model_dir):
     tokenizer = AutoTokenizer.from_pretrained(model_path)
     return [model, tokenizer]
 
+
+@retry(stop_max_attempt_number=5, wait_fixed=5000)
 def input_fn(text, context):
     print('**************** Start input_fn ***************')
     print(type(text))
-    processed_text = json.loads(text)
+    try:
+        processed_text = json.loads(text)
+    except: 
+        print("*********** Unable to load the json file, trying again *********")
     print(type(processed_text))
     print('**************** End input_fn ***************')
     return processed_text
