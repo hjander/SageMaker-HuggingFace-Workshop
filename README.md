@@ -72,6 +72,19 @@ In the terminal paste the following command to clone the workshop content repo:
 
 12. Rejoin the presenter for a live walkthrough of the workshop
 
+### Troubleshooting
+
+#### Kernel
+
+These notebooks have been developed on SageMaker Studio using the following 2 kernels, please use them in case you run into errors:
+
+![](./imgs/ds-kernel.png)
+![](./imgs/pytorch.png)
+
+To change kernel, do this:
+
+![](./imgs/change-kernel.png)
+
 #### Sources:
 
 * https://huggingface.co/docs/sagemaker/main
