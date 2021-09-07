@@ -27,6 +27,7 @@ if __name__ == "__main__":
     parser.add_argument("--learning_rate", type=str, default=5e-5)
     parser.add_argument("--train_file", type=str, default="amazon_us_reviews_apparel_v1_00_train.json")
     parser.add_argument("--test_file", type=str, default="amazon_us_reviews_apparel_v1_00_test.json")
+    parser.add_argument("--fp16", type=bool, default=True)
 
     # Data, model, and output directories
     parser.add_argument("--output_data_dir", type=str, default=os.environ["SM_OUTPUT_DATA_DIR"])
@@ -92,6 +93,7 @@ if __name__ == "__main__":
         per_device_train_batch_size=args.train_batch_size,
         per_device_eval_batch_size=args.eval_batch_size,
         warmup_steps=args.warmup_steps,
+        fp16=args.fp16,
         evaluation_strategy="epoch",
         save_strategy="epoch",
         logging_dir=f"{args.output_data_dir}/logs",
